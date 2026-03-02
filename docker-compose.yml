@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  vllm:
+    build: ./vllm
+    volumes:
+      - huggingface_cache:/root/.cache/huggingface
+    container_name: gams3-vllm-subs-offline
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    shm_size: '16gb'
+    restart: unless-stopped
+    networks:
+      - subtitle-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  api:
+    build: ./api
+    container_name: gams3-api
+    ports:
+      - "8001:8001"
+    environment:
+      - VLLM_URL=http://vllm:8000
+    depends_on:
+      - vllm
+    restart: unless-stopped
+    networks:
+      - subtitle-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  subtitle-net:
+    driver: bridge
+
+volumes:              
+  huggingface_cache:
