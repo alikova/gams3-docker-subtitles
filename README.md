@@ -10,9 +10,8 @@ Includes vLLM inference with LoRA adapter and FastAPI wrapper for transforming A
 First step: save the files
 
 
-Second step: command "docker-compose up" in terminal to create the docker file
+Second step: command "docker compose up vllm" in terminal to create the docker file
 
 
-Third step: run the created file through terminal, and upload .txt or .vtt files, or insert an individual written example.
-
+Third step: run "python fastapi_wrapper.py" through terminal, and upload .txt or .vtt files, insert an individual written example, or check the health of vLLM server connection. 
 
