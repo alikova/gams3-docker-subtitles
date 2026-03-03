@@ -92,7 +92,7 @@ Port already in use
 If port 8000 or 8001 is occupied, edit docker-compose.yml:
 yamlports:
   - "8002:8000"   # change left side only
-  - 
+
 Container crashes on startup / model fails to load
 Check available VRAM with nvidia-smi. If VRAM is insufficient, the vLLM container will exit.
 Inspect the logs with:
