@@ -72,6 +72,8 @@ To also delete the downloaded model cache (frees disk space, but next start will
 bashdocker compose down -v
 
 ### Repository Structure
+
+```text
 gams3-docker-deployment/
 ├── api/
 │   ├── Dockerfile
@@ -81,6 +83,7 @@ gams3-docker-deployment/
 │   └── Dockerfile             # vLLM server with the subtitle model
 ├── docker-compose.yml
 └── README.md
+```
 
 ### Troubleshooting
 
