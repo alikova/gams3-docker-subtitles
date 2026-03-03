@@ -73,13 +73,12 @@ bashdocker compose down -v
 
 ### Repository Structure
 gams3-docker-deployment/
-
 ├── api/
 │   ├── Dockerfile
-│   ├── fastapi_wrapper.py   ← CLI tester + FastAPI server
+│   ├── fastapi_wrapper.py     # CLI tester + FastAPI server
 │   └── requirements.txt
 ├── vllm/
-│   └── Dockerfile           ← vLLM server with the subtitle model
+│   └── Dockerfile             # vLLM server with the subtitle model
 ├── docker-compose.yml
 └── README.md
 
