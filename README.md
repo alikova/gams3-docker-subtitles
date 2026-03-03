@@ -13,8 +13,7 @@ Before starting, make sure you have the following installed:
 You are going to use:
 - Base model: cjvt/GaMS3-12B-Instruct
 - LoRA adapter: alenkaz/GaMS3-12B-subtitles-offline
-- Loaded with bitsandbytes quantization + float16 — reduces VRAM requirement from ~24 GB to ~16 GB
-
+- Loaded with bfloat16 — requires from ~32 GB VRAM
 
 ### Verify Docker can see your GPU before proceeding:
 bashdocker run --rm --gpus all nvidia/cuda:12.0-base nvidia-smi
