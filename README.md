@@ -16,7 +16,7 @@ You are going to use:
 - Loaded with bfloat16 — requires from ~32 GB VRAM
 
 ### Verify Docker can see your GPU before proceeding:
-bashdocker run --rm --gpus all nvidia/cuda:12.0-base nvidia-smi
+bash docker run --rm --gpus all nvidia/cuda:12.0-base nvidia-smi
 If this prints your GPU info, you are ready to go.
 
 Ports
@@ -27,11 +27,11 @@ If either port is already in use, edit docker-compose.yml and change the left si
 ## Setup & Launch
 
 1. Clone the repository:
-bashgit clone <repository-url>
+bash git clone <repository-url>
 cd gams3-docker-deployment
 
 2. Build and start all services:
-bashdocker compose up --build
+bash docker compose up --build
 This builds both Docker images and starts the vllm and api containers.
 
 -- Note: On first run, both the base model (cjvt/GaMS3-12B-Instruct) and the LoRA
@@ -53,7 +53,7 @@ curl http://localhost:8001/health
 
 ## Testing
 Once both containers are healthy, open a new terminal and run the CLI tester:
-bashpython api/fastapi_wrapper.py
+bash python api/fastapi_wrapper.py
 
 Important: docker compose up must already be running in another terminal before
 you launch this script. The script connects to the API at localhost:8001 — if the
@@ -61,14 +61,14 @@ containers are not running, it will fail with a connection error.
 
 Choose option 1 to test a single text, or 4 to check vLLM server health.
 You can also call the API directly:
-bashcurl -X POST http://localhost:8001/transform \
+bash curl -X POST http://localhost:8001/transform \
   -H "Content-Type: application/json" \
   -d '{"text": "um ja res je že prav pomladno danes le veter je še kar hladen}'
 
 ## Stopping the Service
-bashdocker compose down
+bash docker compose down
 To also delete the downloaded model cache (frees disk space, but next start will re-download):
-bashdocker compose down -v
+bash docker compose down -v
 
 ### Repository Structure
 
@@ -98,7 +98,7 @@ yamlports:
 Container crashes on startup / model fails to load
 Check available VRAM with nvidia-smi. If VRAM is insufficient, the vLLM container will exit.
 Inspect the logs with:
-bashdocker logs gams3-vllm-subs-offline
+bash docker logs gams3-vllm-subs-offline
 
 Slow first startup
 The model is downloaded on first run and cached. This is normal — subsequent starts will be fast.
