@@ -38,20 +38,24 @@ class TextResponse(BaseModel):
     chars: int
 
 # === HELPERS ===
-def format_prompt(text: str, max_chars: int = DEFAULT_MAX_CHARS) -> str:
-    return f"Pretvori avtomatski prepis govora v profesionalne podnapise. Strni vsebino na največ {max_chars} znakov ali manj.\n\n{text}"
+def format_prompt(text: str, max_chars: int = DEFAULT_MAX_CHARS) -> list:
+    instruction = (
+        f"Pretvori avtomatski prepis govora v profesionalne podnapise. "
+        f"Strni vsebino na največ {max_chars} znakov ali manj.\n\n{text}"
+    )
+    return [{"role": "user", "content": instruction}]
 
 def call_vllm(text: str, max_chars: int = DEFAULT_MAX_CHARS, temperature: float = 0.1) -> str:
     """Direct call to vLLM API"""
-    prompt = format_prompt(text, max_chars)
     response = requests.post(
         VLLM_URL,
         headers={"Content-Type": "application/json"},
         json={
-            "model": MODEL_NAME,
-            "messages": [{"role": "user", "content": prompt}],
+            "model": "cjvt/GaMS3-12B-Instruct",
+            "messages": format_prompt(text, max_chars),
             "max_tokens": 150,
-            "temperature": temperature
+            "temperature": temperature,
+            "extra_body": {"lora_modules": ["subtitles"]}
         },
         timeout=30
     )
@@ -115,7 +119,7 @@ def batch_transform(items: list[str], max_chars: int = DEFAULT_MAX_CHARS, temper
                 "subtitle": subtitle,
                 "compression_ratio": len(subtitle) / len(text) if text else 0
             })
-        logger.info(f"Batch: {len(items)} items")
+        logger.info(f"✓ Batch: {len(items)} items")
         return {"total_items": len(items), "results": results}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -145,7 +149,7 @@ async def process_file(file: UploadFile = File(...), max_chars: int = DEFAULT_MA
         output_path = Path(tempfile.mktemp(suffix='.txt'))
         output_path.write_text(output_content, encoding='utf-8')
 
-        logger.info(f"Done: {len(segments)} segments")
+        logger.info(f"✓ Done: {len(segments)} segments")
 
         return FileResponse(
             output_path,
