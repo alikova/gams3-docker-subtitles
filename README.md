@@ -73,6 +73,7 @@ bashdocker compose down -v
 
 ### Repository Structure
 gams3-docker-deployment/
+
 ├── api/
 │   ├── Dockerfile
 │   ├── fastapi_wrapper.py   ← CLI tester + FastAPI server
