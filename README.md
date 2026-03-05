@@ -86,19 +86,19 @@ gams3-docker-deployment/
 
 ### Troubleshooting
 
-connection error: host 'vllm' not found
+- Connection error: host 'vllm' not found
 This happens when fastapi_wrapper.py is run without the Docker stack running first.
 Always start with docker compose up before running the CLI tester.
 
-Port already in use
+- Port already in use
 If port 8000 or 8001 is occupied, edit docker-compose.yml:
 yamlports:
   - "8002:8000"   # change left side only
 
-Container crashes on startup / model fails to load
+- Container crashes on startup / model fails to load
 Check available VRAM with nvidia-smi. If VRAM is insufficient, the vLLM container will exit.
 Inspect the logs with:
 bash docker logs gams3-vllm-subs-offline
 
-Slow first startup
+- Slow first startup
 The model is downloaded on first run and cached. This is normal — subsequent starts will be fast.
