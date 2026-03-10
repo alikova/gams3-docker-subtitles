@@ -12,7 +12,7 @@ Before starting, make sure you have the following installed:
 
 You are going to use:
 - Base model: cjvt/GaMS3-12B-Instruct
-- LoRA adapter: alenkaz/GaMS3-12B-subtitles-offline
+- LoRA adapter: alenkaz/GaMS3-12b-Subtitle-Generator-SI
 - Loaded with bfloat16 — requires from ~32 GB VRAM
 
 ### Verify Docker can see your GPU before proceeding:
