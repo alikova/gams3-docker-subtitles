@@ -36,7 +36,7 @@ This builds both Docker images and starts the vllm and api containers.
 
 -- Note: On first run, both the base model (cjvt/GaMS3-12B-Instruct) and the LoRA
 adapter (alenkaz/GaMS3-12B-subtitles-offline) will be downloaded from HuggingFace
-automatically. This can take 30–60 minutes depending on your connection. Subsequent
+automatically. This can take 10–30 minutes depending on your connection. Subsequent
 starts are fast because both are cached in a Docker volume (huggingface_cache).
 
 3. Wait until both services are healthy.
